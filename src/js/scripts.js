@@ -115,7 +115,7 @@ async function main() {
       case 2:
         for (let i = customerDatabase.length - 1; i >= customerDatabase.length - 3; i--) {
           let row = customerDatabase[i];
-          output(`Customer # ${Math.abs(i - 3)}`);
+          output(`Customer # ${Math.abs(i + 1)}`);
           for (let j = 0; j < row.length; j++) {
             output(`         ${row[j]}`);
           }
