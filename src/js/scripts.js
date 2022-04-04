@@ -55,6 +55,7 @@ async function main() {
         let carYear;
         do {
           carYear = await input("Please Enter car Make Year: ");
+          output(typeof carYear);
           if (!isCarYearValid(carYear)) {
             output("Your make of your car should be 1990 and till present year model.");
           } else {
@@ -114,6 +115,10 @@ function checkBrand(inputVal) {
     }
   }
   return outputVal;
+}
+
+function isCarYearValid(inputVal) {
+  return Number(inputVal) >= 1990 && Number(inputVal <= new Date().getFullYear() + 1);
 }
 
 function isVINValid(inputVal) {
