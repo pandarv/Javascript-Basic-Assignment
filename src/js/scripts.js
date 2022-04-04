@@ -6,8 +6,13 @@ async function main() {
     output("1- Create New Car Profile \n2- View Previous Profile \n3- Quit Application");
 
     menuOption = Number(await input("Please Enter 1, 2 or 3 to select your option: "));
+    const customerDatabase = [
+      ["John", "Domingo", "148A 34 Street", "2010-01-24", "Audi", "Class A", "2008", "SHDYT3STA4SGDT7S9"],
+      ["Rob", "Gosta", "43 4 Ave.", "1990-01-24", "BMW", "A12", "9091", "S12ST3ERA4OHT543S"],
+      ["Monica", "Joe", "#123-2312 34 Street", "2020-12-01", "Honda", "Accord", "2015", "PY12T3STA4SGDAS65"],
+    ];
 
-    const custInfo = [];
+    const customerInfo = [];
 
     switch (menuOption) {
       case 1:
@@ -16,30 +21,40 @@ async function main() {
         do {
           firstNameInput = await input("Please Enter your First Name:  ");
           if (checkName(firstNameInput)) {
-            custInfo.push(firstNameInput);
+            customerInfo.push(firstNameInput);
           }
         } while (!checkName(firstNameInput));
 
+        // Last Name
         let lastNameInput;
         do {
-          // Last Name
           lastNameInput = await input("Please Enter your Last Name:  ");
           if (checkName(lastNameInput)) {
-            custInfo.push(lastNameInput);
+            customerInfo.push(lastNameInput);
           }
         } while (!checkName(lastNameInput));
 
+        // Address
         let addressInput;
         do {
-          // Address
-          addressInput = await input("Please Enter your Address:  ");
+          addressInput = await input("Please Enter Car your Correspondence Address:  ");
           if (!isEmpty(addressInput)) {
             output("You should have minimum 5 letters and maximum 50 with special characters #,-.");
           } else {
-            custInfo.push(addressInput);
+            customerInfo.push(addressInput);
           }
         } while (!isEmpty(addressInput));
 
+        // Date of Purchase
+        let purchaseDateInput;
+        do {
+          purchaseDateInput = await input("Please Enter Date of Purchase in yyyyy-mm-dd format: ");
+          if (!isDateValid(purchaseDateInput)) {
+            output("Please Enter the correct purchase date.");
+          } else {
+            customerInfo.push(purchaseDateInput);
+          }
+        } while (!isDateValid(purchaseDateInput));
         //Car Brands
         let carBrandInput;
         do {
@@ -47,7 +62,7 @@ async function main() {
           if (!checkBrand(carBrandInput)) {
             output("This brand is not in the list.");
           } else {
-            custInfo.push(carBrandInput);
+            customerInfo.push(carBrandInput);
           }
         } while (!checkBrand(carBrandInput));
 
@@ -59,7 +74,7 @@ async function main() {
           if (!isCarModelValid(carModel)) {
             output("Please Enter letters and numbers upto 15 characters");
           } else {
-            custInfo.push(carModel);
+            customerInfo.push(carModel);
           }
         } while (!isCarModelValid(carModel));
 
@@ -67,13 +82,12 @@ async function main() {
         let carYear;
         do {
           carYear = await input("Please Enter car Make Year: ");
-          output(typeof carYear);
-          if (!isCarYearValid(carYear)) {
+          if (!isYearValid(carYear)) {
             output("Your make of your car should be 1990 and till present year model.");
           } else {
-            custInfo.push(carYear);
+            customerInfo.push(carYear);
           }
-        } while (!isCarYearValid(carYear));
+        } while (!isYearValid(carYear));
 
         // VIN Number
         let VINInput;
@@ -82,11 +96,14 @@ async function main() {
           if (!isVINValid(VINInput)) {
             output("VIN should be 17 character long includes only letters and digits.");
           } else {
-            custInfo.push(VINInput.toUpperCase());
+            customerInfo.push(VINInput.toUpperCase());
           }
         } while (!isVINValid(VINInput));
 
-        output(custInfo);
+        output(customerInfo);
+
+        customerDatabase.push(customerInfo);
+        output(customerDatabase);
         // if () {
         //   output(`matches the Regular Expression`);
         //   // Last Name
@@ -134,11 +151,30 @@ function isCarModelValid(inputVal) {
   return regEx.test(inputVal);
 }
 
-function isCarYearValid(inputVal) {
+function isYearValid(inputVal) {
   return Number(inputVal) >= 1990 && Number(inputVal <= new Date().getFullYear() + 1);
 }
 
 function isVINValid(inputVal) {
   const regEx = /[A-Z\d]{17}/;
   return regEx.test(inputVal.toUpperCase());
+}
+
+function isDateValid(inputVal) {
+  let outputVal = true;
+  let dateValue = inputVal.split("-");
+  // Year Validation
+  if (!isYearValid(dateValue[0])) {
+    outputVal = false;
+  }
+  //  Month Validation
+  if (dateValue[1] > 12 || dateValue[1] < 1 || !Number.isInteger(Number(dateValue[1]))) {
+    outputVal = false;
+  }
+
+  // Date validation
+  if (dateValue[2] > 31 || dateValue[2] < 1 || !Number.isInteger(Number(dateValue[2]))) {
+    outputVal = false;
+  }
+  return outputVal;
 }
