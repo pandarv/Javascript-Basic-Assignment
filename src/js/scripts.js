@@ -1,16 +1,16 @@
 async function main() {
   // This is where the code you're actually experimenting with goes.
+  const customerDatabase = [
+    ["John", "Domingo", "148A 34 Street", "2010-01-24", "Audi", "Class A", "2008", "SHDYT3STA4SGDT7S9"],
+    ["Rob", "Gosta", "43 4 Ave.", "1990-01-24", "BMW", "A12", "9091", "S12ST3ERA4OHT543S"],
+    ["Monica", "Joe", "#123-2312 34 Street", "2020-12-01", "Honda", "Accord", "2015", "PY12T3STA4SGDAS65"],
+  ];
 
   let menuOption;
   do {
     output("1- Create New Car Profile \n2- View Previous Profile \n3- Quit Application");
 
     menuOption = Number(await input("Please Enter 1, 2 or 3 to select your option: "));
-    const customerDatabase = [
-      ["John", "Domingo", "148A 34 Street", "2010-01-24", "Audi", "Class A", "2008", "SHDYT3STA4SGDT7S9"],
-      ["Rob", "Gosta", "43 4 Ave.", "1990-01-24", "BMW", "A12", "9091", "S12ST3ERA4OHT543S"],
-      ["Monica", "Joe", "#123-2312 34 Street", "2020-12-01", "Honda", "Accord", "2015", "PY12T3STA4SGDAS65"],
-    ];
 
     const customerInfo = [];
 
@@ -100,10 +100,10 @@ async function main() {
           }
         } while (!isVINValid(VINInput));
 
-        output(customerInfo);
+        // output(customerInfo);
 
         customerDatabase.push(customerInfo);
-        output(customerDatabase);
+        // output(customerDatabase);
         // if () {
         //   output(`matches the Regular Expression`);
         //   // Last Name
@@ -113,7 +113,14 @@ async function main() {
         // }
         break;
       case 2:
-        output(" You are in View Previous Profile");
+        for (let i = customerDatabase.length - 1; i >= customerDatabase.length - 3; i--) {
+          let row = customerDatabase[i];
+          output(`Customer # ${Math.abs(i - 3)}`);
+          for (let j = 0; j < row.length; j++) {
+            output(`         ${row[j]}`);
+          }
+        }
+        // output(" You are in View Previous Profile");
         break;
       case 3:
         output("Goodbye!");
