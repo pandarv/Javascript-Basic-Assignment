@@ -51,6 +51,18 @@ async function main() {
           }
         } while (!checkBrand(carBrandInput));
 
+        // Car Model
+
+        let carModel;
+        do {
+          carModel = await input("Please Enter your car Model: ");
+          if (!isCarModelValid(carModel)) {
+            output("Please Enter letters and numbers upto 15 characters");
+          } else {
+            custInfo.push(carModel);
+          }
+        } while (!isCarModelValid(carModel));
+
         // Car Year
         let carYear;
         do {
@@ -115,6 +127,11 @@ function checkBrand(inputVal) {
     }
   }
   return outputVal;
+}
+
+function isCarModelValid(inputVal) {
+  const regEx = /^([a-z\d]( ){0,}){1,15}$/i;
+  return regEx.test(inputVal);
 }
 
 function isCarYearValid(inputVal) {
