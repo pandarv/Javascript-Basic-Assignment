@@ -37,28 +37,29 @@ async function main() {
         // Address
         let addressInput;
         do {
-          addressInput = await input("Please Enter Car your Correspondence Address:  ");
-          if (!isEmpty(addressInput)) {
+          //addressInput = await input("Please Enter Car your Correspondence Address:  ");
+          if (!isAddressValid(addressInput)) {
             output("You should have minimum 5 letters and maximum 50 with special characters #,-.");
           } else {
             customerInfo.push(addressInput);
           }
-        } while (!isEmpty(addressInput));
+        } while (!isAddressValid(addressInput));
 
         // Date of Purchase
         let purchaseDateInput;
         do {
-          purchaseDateInput = await input("Please Enter Date of Purchase in yyyyy-mm-dd format: ");
+          purchaseDateInput = await input("Please Enter Date of Purchase in yyyy-mm-dd format: ");
           if (!isDateValid(purchaseDateInput)) {
             output("Please Enter the correct purchase date.");
           } else {
+            // output(purchaseDateInput);
             customerInfo.push(purchaseDateInput);
           }
         } while (!isDateValid(purchaseDateInput));
         //Car Brands
         let carBrandInput;
         do {
-          carBrandInput = await input("Please Enter your carBrand: ");
+          carBrandInput = await input("Please Enter your Car Brand: ");
           if (!checkBrand(carBrandInput)) {
             output("This brand is not in the list.");
           } else {
@@ -115,10 +116,11 @@ async function main() {
       case 2:
         for (let i = customerDatabase.length - 1; i >= customerDatabase.length - 3; i--) {
           let row = customerDatabase[i];
-          output(`Customer # ${Math.abs(i + 1)}`);
+          output(`\nCustomer # ${Math.abs(i + 1)}`);
           for (let j = 0; j < row.length; j++) {
-            output(`         ${row[j]}`);
+            // output(`         ${row[j]}`);
           }
+          output(`    First Name:${row[0]}\n    Last Name:${row[1]}\n    Address: ${row[2]}\n    Purchase Date:   ${row[3]}\n    Car Brand:   ${row[4]}\n    Car Model:   ${row[5]}\n    Car Year:    ${row[6]}\n    Car VIN Number:    ${row[7]}`);
         }
         // output(" You are in View Previous Profile");
         break;
@@ -136,8 +138,8 @@ function checkName(inputVal) {
   return regEx.test(inputVal);
 }
 
-function isEmpty(inputVal) {
-  const regEx = /^([a-z#-\d]( ){0,}){5,50}$/i;
+function isAddressValid(inputVal) {
+  const regEx = /^([a-z#-,\d]( ){0,}){5,50}$/i;
   return regEx.test(inputVal);
 }
 
@@ -171,7 +173,7 @@ function isDateValid(inputVal) {
   let outputVal = true;
   let dateValue = inputVal.split("-");
   // Year Validation
-  if (!isYearValid(dateValue[0])) {
+  if (dateValue[0] > new Date().getFullYear()) {
     outputVal = false;
   }
   //  Month Validation
@@ -185,3 +187,7 @@ function isDateValid(inputVal) {
   }
   return outputVal;
 }
+
+// function isDateValid(inputVal) {
+//   return new Date(inputVal);
+// }
